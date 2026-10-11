@@ -1509,14 +1509,15 @@ button {
 }
 
 .card {
-  --card-height: 380px;
-  --card-width: calc(var(--card-height) / 1.5);
+  --card-height: 420px;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: var(--card-width);
-  height: var(--card-height);
+  gap: 1.5rem;
+  width: 280px;
+  /* Grows with long titles or details instead of squeezing the footer against the edge */
+  min-height: var(--card-height);
   padding: 1.75rem 1.5rem;
   border-radius: 6px;
   background: #191c29;
@@ -1886,7 +1887,7 @@ button {
   }
 
   .card {
-    --card-height: 360px;
+    --card-height: 380px;
     width: 100%;
     max-width: 300px;
   }
