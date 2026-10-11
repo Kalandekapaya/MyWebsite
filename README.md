@@ -1,7 +1,10 @@
 # Kalande Kapaya — Portfolio
 
+**Live site:** https://kalandekapaya.github.io/MyWebsite/
+
 A single-page portfolio site. No build step: open `index.html` in a browser, or serve the
-folder with any static host (GitHub Pages, Netlify, Vercel…).
+folder with any static host (GitHub Pages, Netlify, Vercel…). Pushes to `main` deploy
+automatically through GitHub Pages.
 
 ## Design
 
