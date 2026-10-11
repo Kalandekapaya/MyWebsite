@@ -1,51 +1,52 @@
 // ============================================================
-// Project data: replace these placeholders with your own work.
-// The workspace list, counters and featured cards are built from
-// this list. Leave `url` empty until a project has a public link.
+// Project data: the workspace list, counters and featured cards
+// are built from this list. status is "live" (has a public link),
+// "done" (completed) or "progress". Leave url empty if there is
+// no public link.
 // ============================================================
 const PROJECTS = [
   {
-    name: "Project One",
-    short: "P1",
+    name: "AI Chatbot for ZUT",
+    short: "AI",
     color: "#00ffff",
-    category: "web",
-    tech: "HTML · CSS · JavaScript",
+    category: "ai",
+    tech: "Azure AI · OpenAI Service",
     status: "live",
-    url: "",
-    desc: "Short description of a project you've built: what it does and the problem it solves.",
+    url: "https://t.me/ZUTChat_bot",
+    desc: "A Telegram chatbot for ZUT that integrates Azure AI and the OpenAI Service to answer questions.",
     featured: true,
   },
   {
-    name: "Project Two",
-    short: "P2",
+    name: "Provincial Data Analysis & Statistics Tool",
+    short: "DA",
     color: "#a78bfa",
-    category: "web",
-    tech: "React · Node.js",
-    status: "live",
+    category: "data",
+    tech: "Internal tool · Lusaka Provincial Health Office",
+    status: "done",
     url: "",
-    desc: "Short description of a project you've built: what it does and the problem it solves.",
+    desc: "A custom tool for processing provincial health data and troubleshooting systems, built for internal use at the Lusaka Provincial Health Office.",
     featured: true,
   },
   {
-    name: "Project Three",
-    short: "P3",
+    name: "Attendance Management System",
+    short: "AM",
     color: "#5ddcff",
-    category: "mobile",
-    tech: "Mobile · API",
-    status: "progress",
+    category: "web",
+    tech: "PHP · JavaScript",
+    status: "done",
     url: "",
-    desc: "Short description of a project you're working on right now.",
+    desc: "A full-stack attendance management system built with PHP and JavaScript.",
     featured: true,
   },
   {
-    name: "Project Four",
-    short: "P4",
+    name: "Human Resource Consultant Web",
+    short: "HR",
     color: "#ff5e68",
-    category: "tools",
-    tech: "Python · CLI",
-    status: "live",
+    category: "web",
+    tech: "Bootstrap · Responsive",
+    status: "done",
     url: "",
-    desc: "Short description of a tool or script you've written.",
+    desc: "A responsive website for a human resource consultancy, built on the Bootstrap framework.",
   },
   {
     name: "Portfolio Website",
@@ -55,9 +56,11 @@ const PROJECTS = [
     tech: "HTML · CSS · JavaScript",
     status: "progress",
     url: "https://github.com/Kalandekapaya/MyWebsite",
-    desc: "This site: a single-page portfolio with a lock screen, glass workspace and a matrix-rain terminal.",
+    desc: "This site: a single-page portfolio with a lock screen, aurora home, glass workspace and a matrix-rain terminal.",
   },
 ];
+
+const STATUS_LABELS = { live: "Live", done: "Completed", progress: "In progress" };
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -405,8 +408,8 @@ const FILTER_TITLES = {
   all: "All Projects",
   progress: "In progress",
   web: "Web Apps",
-  mobile: "Mobile",
-  tools: "Tools",
+  ai: "AI",
+  data: "Data Tools",
 };
 
 function escapeHtml(str) {
@@ -414,11 +417,14 @@ function escapeHtml(str) {
 }
 
 function linkLabel(url) {
-  return url.includes("github.com") ? "View on GitHub" : "Open project";
+  if (url.includes("github.com")) return "View on GitHub";
+  if (url.includes("t.me/")) return "Open on Telegram";
+  return "Open project";
 }
 
 list.innerHTML = PROJECTS.map((p, i) => {
   const live = p.status === "live";
+  const finished = p.status !== "progress";
   const link = p.url ? `<li><a href="${p.url}" target="_blank" rel="noopener">${linkLabel(p.url)}</a></li>` : "";
   return `
     <li class="project" data-index="${i}" data-category="${p.category}" data-status="${p.status}">
@@ -427,7 +433,7 @@ list.innerHTML = PROJECTS.map((p, i) => {
         <span class="products-name">${escapeHtml(p.name)}</span>
       </div>
       <span class="tech">${escapeHtml(p.tech)}</span>
-      <span class="status"><span class="status-circle${live ? " green" : ""}"></span>${live ? "Live" : "In progress"}</span>
+      <span class="status"><span class="status-circle${finished ? " green" : ""}"></span>${STATUS_LABELS[p.status]}</span>
       <div class="button-wrapper">
         ${
           live && p.url
@@ -571,7 +577,7 @@ $(".magic-cards").innerHTML = PROJECTS.filter((p) => p.featured)
     const tag = p.url ? `a href="${p.url}" target="_blank" rel="noopener"` : `div tabindex="0"`;
     const footer = p.url
       ? `<span class="card-link">${linkLabel(p.url)} <svg class="icon"><use href="#i-arrow"/></svg></span>`
-      : `<span class="card-link">Link coming soon</span>`;
+      : `<span class="card-link">${STATUS_LABELS[p.status]}</span>`;
     return `
     <${tag} class="card">
       <span class="card-index">0${i + 1}</span>
@@ -600,10 +606,13 @@ const TERMINAL_TEXT = [
   "kalande_kapaya",
   "",
   "$ cat role.txt",
-  "Software Engineer / Creative Front-End Developer",
+  "Full-Stack Software Engineer & Product Specialist",
   "",
   "$ ls skills/",
-  "html  css  scss  javascript  typescript  react  three.js  git",
+  "php  laravel  codeigniter  react  javascript  java  dhis2  power-bi",
+  "",
+  "$ cat location.txt",
+  "Lusaka, Zambia",
   "",
   "$ echo $MOTTO",
   '"Wake up... the code has you."',

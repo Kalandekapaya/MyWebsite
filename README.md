@@ -18,12 +18,11 @@ A shared palette ties the pieces together: the rain's cyan, the card gradient
 
 ## Editing
 
-- **Projects:** replace the placeholder entries in the `PROJECTS` array at the top of
-  `script.js`. The workspace list, counters and featured cards are generated from it
-  (`featured: true` puts a project on a featured card; leave `url` empty until it has a link).
-- **Text:** hero, skills and about copy live in `index.html`; the terminal text is
-  `TERMINAL_TEXT` in `script.js`.
-- **Contact email:** replace `you@example.com` in `index.html`.
+- **Projects:** edit the `PROJECTS` array at the top of `script.js`. The workspace list,
+  counters and featured cards are generated from it (`featured: true` puts a project on a
+  featured card; `status` is `live`, `done` or `progress`; leave `url` empty if there's no link).
+- **Text:** hero, skills, about/experience and contact copy live in `index.html`; the terminal
+  text is `TERMINAL_TEXT` in `script.js`.
 - **PIN:** change `PIN` in `script.js` (and the hint text in `index.html`).
 
 ## Credits
