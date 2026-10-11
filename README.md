@@ -29,4 +29,6 @@ A shared palette ties the pieces together: the rain's cyan, the card gradient
 ## Credits
 
 Design credits: lock screen by Hyperplexed, particles cursor by Kevin Levron (threejs-toys,
-loaded from unpkg), digital rain by Sara Mazal, glassmorphism app design by Mikołaj Gałęziowski. Icons from [Feather](https://feathericons.com) (MIT).
+loaded from unpkg), digital rain by Sara Mazal, glassmorphism app design by Mikołaj Gałęziowski.
+Lock screen photo by [Leonhard Niederwimmer](https://unsplash.com/@lnlnln) on
+[Unsplash](https://unsplash.com/photos/green-grass-field-under-blue-sky-during-daytime-FFnDGx3rZrA) (saved as `images/lock-bg.jpg`). Icons from [Feather](https://feathericons.com) (MIT).
