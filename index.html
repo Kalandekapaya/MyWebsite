@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalande Kapaya | Software Engineer</title>
+  <meta name="description" content="Portfolio of Kalande Kapaya, software engineer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="#top">&lt;KK /&gt;</a>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#matrix">Code</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <p class="eyebrow">Hello, I'm</p>
+      <h1>Kalande Kapaya</h1>
+      <p class="lead">Software engineer. I build things for the web.</p>
+      <a class="btn" href="#matrix">Enter the Matrix</a>
+    </section>
+
+    <section id="about" class="section">
+      <h2>About</h2>
+      <p>
+        I'm a programmer who enjoys turning ideas into clean, fast and reliable software.
+        Replace this paragraph with a short introduction about yourself.
+      </p>
+    </section>
+
+    <!-- Matrix digital rain section -->
+    <section id="matrix" class="matrix-section" aria-label="I am a programmer">
+      <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+      <div class="matrix-overlay">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span></span><span></span><span></span>
+            <p>kalande@dev: ~</p>
+          </div>
+          <pre class="terminal-body"><code id="typed"></code><span class="cursor">█</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <h2>Projects</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Project One</h3>
+          <p>Short description of the project and the problem it solves.</p>
+          <p class="tags">JavaScript · HTML · CSS</p>
+        </article>
+        <article class="card">
+          <h3>Project Two</h3>
+          <p>Short description of the project and the problem it solves.</p>
+          <p class="tags">Python · API</p>
+        </article>
+        <article class="card">
+          <h3>Project Three</h3>
+          <p>Short description of the project and the problem it solves.</p>
+          <p class="tags">React · Node.js</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <p>Want to work together? <a href="mailto:you@example.com">Send me an email</a>.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Kalande Kapaya</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
