@@ -4,46 +4,282 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kalande Kapaya | Software Engineer</title>
-  <meta name="description" content="Portfolio of Kalande Kapaya, software engineer.">
+  <meta name="description" content="Portfolio of Kalande Kapaya, software engineer and creative front-end developer.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="is-locked">
+  <!-- Icon sprite (Feather icons, MIT) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-login" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-hash" viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></symbol>
+    <symbol id="i-codepen" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/><polyline points="2 15.5 12 8.5 22 15.5"/><line x1="12" y1="2" x2="12" y2="8.5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></symbol>
+  </svg>
+
+  <!-- ============ LOCK SCREEN (App Menu With Lock Screen + Matrix) ============ -->
+  <div id="lock" class="lock" data-state="logged-out" role="dialog" aria-modal="true" aria-label="Lock screen">
+    <canvas class="lock-rain" aria-hidden="true"></canvas>
+
+    <button class="lock-skip glass-button" type="button">Skip intro</button>
+
+    <div class="lock-info">
+      <span class="lock-time" data-clock>12:00</span>
+      <span class="lock-date" data-date></span>
+      <div class="lock-reminder glass-chip">
+        <span class="lock-reminder-icon"><svg class="icon"><use href="#i-bell"/></svg></span>
+        <span>Kalande is <strong>open to new projects</strong></span>
+      </div>
+    </div>
+
+    <div class="lock-pin">
+      <input id="pin-input" class="pin-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="PIN" disabled>
+      <div class="pin-digits" aria-hidden="true">
+        <span class="pin-digit"></span><span class="pin-digit"></span><span class="pin-digit"></span><span class="pin-digit"></span>
+      </div>
+      <p class="pin-label">
+        Enter PIN (1234)
+        <span class="pin-error">Invalid</span>
+        <button class="pin-cancel" type="button">Cancel</button>
+      </p>
+    </div>
+
+    <div class="lock-spinner" aria-hidden="true"></div>
+
+    <div class="lock-signin">
+      <button class="lock-signin-button glass-button" type="button" aria-label="Unlock">
+        <svg class="icon"><use href="#i-login"/></svg>
+      </button>
+      <span class="lock-hint">Click anywhere to unlock</span>
+    </div>
+  </div>
+
+  <!-- ============ SITE HEADER (Glassmorphism) ============ -->
   <header class="site-header">
-    <a class="logo" href="#top">&lt;KK /&gt;</a>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#matrix">Code</a>
-      <a href="#projects">Projects</a>
+    <a class="brand" href="#home">
+      <span class="menu-circle" aria-hidden="true"></span>
+      <span class="brand-name">&lt;KK /&gt;</span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#home">Home</a>
+      <a href="#workspace">Workspace</a>
+      <a href="#featured">Featured</a>
+      <a href="#code">Code</a>
       <a href="#contact">Contact</a>
     </nav>
+    <button class="relock glass-button" type="button" aria-label="Lock screen" title="Lock screen">
+      <svg class="icon"><use href="#i-lock"/></svg>
+    </button>
   </header>
 
-  <main id="top">
-    <section class="hero">
-      <p class="eyebrow">Hello, I'm</p>
-      <h1>Kalande Kapaya</h1>
-      <p class="lead">Software engineer. I build things for the web.</p>
-      <a class="btn" href="#matrix">Enter the Matrix</a>
+  <main>
+    <!-- ============ HERO (Three.js particles cursor) ============ -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <p class="hero-kicker">&gt; hello world, I'm</p>
+        <h1>KALANDE<br>KAPAYA</h1>
+        <p class="hero-role">Software Engineer &middot; Creative Front-End Developer</p>
+        <div class="hero-actions">
+          <a class="content-button" href="#workspace">Open my workspace</a>
+          <a class="magic-button" href="#code"><span>Enter the Matrix</span></a>
+        </div>
+      </div>
+      <p class="hero-hint">Move your cursor &middot; click to remix the particles</p>
     </section>
 
-    <section id="about" class="section">
-      <h2>About</h2>
-      <p>
-        I'm a programmer who enjoys turning ideas into clean, fast and reliable software.
-        Replace this paragraph with a short introduction about yourself.
-      </p>
+    <!-- ============ WORKSPACE (Glassmorphism Creative Cloud app) ============ -->
+    <section id="workspace" class="workspace">
+      <div class="orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+
+      <div class="section-heading">
+        <p class="kicker">// workspace</p>
+        <h2>Everything I've built, in one window</h2>
+      </div>
+
+      <div class="app">
+        <div class="app-header">
+          <span class="menu-circle" aria-hidden="true"></span>
+          <div class="header-menu" role="tablist" aria-label="Workspace">
+            <button class="menu-link is-active" type="button" role="tab" aria-selected="true" data-panel="projects">Projects</button>
+            <button class="menu-link notify" type="button" role="tab" aria-selected="false" data-panel="skills">Skills</button>
+            <button class="menu-link" type="button" role="tab" aria-selected="false" data-panel="about">About</button>
+          </div>
+          <div class="search-bar">
+            <input type="search" placeholder="Search projects" aria-label="Search projects">
+          </div>
+          <div class="header-profile">
+            <button class="dark-light" type="button" aria-label="Toggle light mode" title="Toggle light mode">
+              <svg class="icon"><use href="#i-moon"/></svg>
+            </button>
+            <span class="profile-img" aria-hidden="true">KK</span>
+          </div>
+        </div>
+
+        <div class="wrapper">
+          <aside class="left-side">
+            <div class="side-wrapper">
+              <div class="side-title">Projects</div>
+              <div class="side-menu">
+                <button type="button" class="is-active" data-filter="all"><svg class="icon"><use href="#i-layers"/></svg>All Projects</button>
+                <button type="button" data-filter="progress"><svg class="icon"><use href="#i-clock"/></svg>In progress<span class="notification-number updates" data-count="progress">0</span></button>
+              </div>
+            </div>
+            <div class="side-wrapper">
+              <div class="side-title">Categories</div>
+              <div class="side-menu">
+                <button type="button" data-filter="ui"><svg class="icon"><use href="#i-hash"/></svg>UI Design</button>
+                <button type="button" data-filter="3d"><svg class="icon"><use href="#i-hash"/></svg>3D / WebGL</button>
+                <button type="button" data-filter="experiments"><svg class="icon"><use href="#i-hash"/></svg>Experiments</button>
+                <button type="button" data-filter="web"><svg class="icon"><use href="#i-hash"/></svg>Websites</button>
+              </div>
+            </div>
+            <div class="side-wrapper">
+              <div class="side-title">Find me</div>
+              <div class="side-menu">
+                <a href="https://codepen.io/kalande-kapaya" target="_blank" rel="noopener"><svg class="icon"><use href="#i-codepen"/></svg>CodePen</a>
+                <a href="https://github.com/Kalandekapaya" target="_blank" rel="noopener"><svg class="icon"><use href="#i-github"/></svg>GitHub</a>
+                <a href="#contact"><svg class="icon"><use href="#i-mail"/></svg>Email</a>
+              </div>
+            </div>
+          </aside>
+
+          <div class="main-container">
+            <div class="main-header">
+              <span class="menu-link-main" data-title>All Projects</span>
+              <div class="header-menu filter-tabs">
+                <button class="main-header-link is-active" type="button" data-filter="all">All</button>
+                <button class="main-header-link" type="button" data-filter="ui">UI</button>
+                <button class="main-header-link" type="button" data-filter="3d">3D</button>
+                <button class="main-header-link" type="button" data-filter="experiments">Experiments</button>
+              </div>
+            </div>
+
+            <div class="content-wrapper">
+              <!-- Projects panel -->
+              <div class="panel is-active" data-panel="projects" role="tabpanel">
+                <div class="content-wrapper-header">
+                  <div class="content-wrapper-context">
+                    <h3 class="img-content">Open to new projects</h3>
+                    <p class="content-text">I design and build interactive, animated interfaces for the web. Have an idea that needs a developer? Let's make it real.</p>
+                    <a class="content-button" href="#contact">Hire me</a>
+                  </div>
+                  <div class="glass-tile" aria-hidden="true">&lt;/&gt;</div>
+                </div>
+
+                <div class="content-section">
+                  <div class="content-section-title">My projects</div>
+                  <ul class="project-list"></ul>
+                  <p class="empty-state" hidden>No projects match your search.</p>
+                </div>
+              </div>
+
+              <!-- Skills panel -->
+              <div class="panel" data-panel="skills" role="tabpanel" hidden>
+                <div class="content-section">
+                  <div class="content-section-title">What I work with</div>
+                  <div class="apps-card">
+                    <div class="app-card">
+                      <span><i class="app-icon" style="--c:#e34f26">H</i>HTML &amp; CSS / SCSS</span>
+                      <p class="app-card__subtext">Semantic markup, responsive layouts, glassmorphism and Houdini-powered animations.</p>
+                      <div class="app-card-tags">HTML5 · CSS3 · SCSS</div>
+                    </div>
+                    <div class="app-card">
+                      <span><i class="app-icon" style="--c:#f7df1e">JS</i>JavaScript / TypeScript</span>
+                      <p class="app-card__subtext">Interactive UI, canvas animation and typed, maintainable application code.</p>
+                      <div class="app-card-tags">ES2020+ · TypeScript</div>
+                    </div>
+                    <div class="app-card">
+                      <span><i class="app-icon" style="--c:#61dafb">R</i>React</span>
+                      <p class="app-card__subtext">Component-driven interfaces with hooks, context and state machines.</p>
+                      <div class="app-card-tags">React · Hooks · Context</div>
+                    </div>
+                    <div class="app-card">
+                      <span><i class="app-icon" style="--c:#5ddcff">3D</i>Three.js / WebGL</span>
+                      <p class="app-card__subtext">GPU particle systems and shader-driven visuals that react to the user.</p>
+                      <div class="app-card-tags">Three.js · GLSL</div>
+                    </div>
+                    <div class="app-card">
+                      <span><i class="app-icon" style="--c:#f05032">G</i>Git &amp; GitHub</span>
+                      <p class="app-card__subtext">Version control, branches and pull requests for clean collaboration.</p>
+                      <div class="app-card-tags">Git · GitHub</div>
+                    </div>
+                    <div class="app-card">
+                      <span><i class="app-icon" style="--c:#a78bfa">UX</i>UI / UX</span>
+                      <p class="app-card__subtext">Turning designs and inspiration into polished, accessible experiences.</p>
+                      <div class="app-card-tags">Prototyping · Motion</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- About panel -->
+              <div class="panel" data-panel="about" role="tabpanel" hidden>
+                <div class="content-section about">
+                  <div class="content-section-title">About me</div>
+                  <p>
+                    I'm Kalande Kapaya, a programmer who loves the place where code meets design.
+                    I enjoy building interfaces that feel alive: digital rain, particle swarms,
+                    glowing cards and frosted glass. Every project on this page started as an
+                    experiment on my CodePen.
+                  </p>
+                  <p>
+                    <em>Edit this text in <code>index.html</code> to tell visitors more about your
+                    background, what you're learning and the kind of work you're looking for.</em>
+                  </p>
+                  <div class="stats">
+                    <div><strong data-count="all">0</strong><span>projects</span></div>
+                    <div><strong>5</strong><span>CodePen experiments</span></div>
+                    <div><strong>&infin;</strong><span>curiosity</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project details pop-up -->
+      <div class="overlay-app"></div>
+      <div class="pop-up" role="dialog" aria-modal="true" aria-labelledby="pop-up-title">
+        <div class="pop-up__title">
+          <span id="pop-up-title"></span>
+          <button class="close" type="button" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+        </div>
+        <p class="pop-up__subtitle"></p>
+        <p class="pop-up__tech"></p>
+        <div class="content-button-wrapper">
+          <button class="content-button status-button open close" type="button">Close</button>
+          <a class="content-button status-button pop-up__link" href="#" target="_blank" rel="noopener">View project</a>
+        </div>
+      </div>
     </section>
 
-    <!-- Matrix digital rain section -->
-    <section id="matrix" class="matrix-section" aria-label="I am a programmer">
-      <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+    <!-- ============ FEATURED (Magic Card) ============ -->
+    <section id="featured" class="featured">
+      <div class="section-heading">
+        <p class="kicker">// featured</p>
+        <h2>Featured experiments</h2>
+      </div>
+      <div class="magic-cards"></div>
+    </section>
+
+    <!-- ============ CODE (Matrix digital rain) ============ -->
+    <section id="code" class="matrix-section" aria-label="I am a programmer">
+      <canvas class="matrix-rain" aria-hidden="true"></canvas>
       <div class="matrix-overlay">
         <div class="terminal">
           <div class="terminal-bar">
-            <span></span><span></span><span></span>
+            <span class="menu-circle" aria-hidden="true"></span>
             <p>kalande@dev: ~</p>
           </div>
           <pre class="terminal-body"><code id="typed"></code><span class="cursor">█</span></pre>
@@ -51,37 +287,30 @@
       </div>
     </section>
 
-    <section id="projects" class="section">
-      <h2>Projects</h2>
-      <div class="cards">
-        <article class="card">
-          <h3>Project One</h3>
-          <p>Short description of the project and the problem it solves.</p>
-          <p class="tags">JavaScript · HTML · CSS</p>
-        </article>
-        <article class="card">
-          <h3>Project Two</h3>
-          <p>Short description of the project and the problem it solves.</p>
-          <p class="tags">Python · API</p>
-        </article>
-        <article class="card">
-          <h3>Project Three</h3>
-          <p>Short description of the project and the problem it solves.</p>
-          <p class="tags">React · Node.js</p>
-        </article>
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="contact">
+      <div class="orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="contact-card">
+        <p class="kicker">// contact</p>
+        <h2>Let's build something together</h2>
+        <p>Have a project, a role or just want to say hi? My inbox is open.</p>
+        <a class="magic-button" href="mailto:you@example.com"><span>Say hello</span></a>
+        <div class="contact-links">
+          <a href="https://codepen.io/kalande-kapaya" target="_blank" rel="noopener"><svg class="icon"><use href="#i-codepen"/></svg>CodePen</a>
+          <a href="https://github.com/Kalandekapaya" target="_blank" rel="noopener"><svg class="icon"><use href="#i-github"/></svg>GitHub</a>
+        </div>
       </div>
-    </section>
-
-    <section id="contact" class="section">
-      <h2>Contact</h2>
-      <p>Want to work together? <a href="mailto:you@example.com">Send me an email</a>.</p>
     </section>
   </main>
 
   <footer class="site-footer">
-    <p>&copy; <span id="year"></span> Kalande Kapaya</p>
+    <p>&copy; <span id="year"></span> Kalande Kapaya &middot; Built from my CodePen experiments.</p>
+    <p class="credits">
+      Inspired by Mikołaj Gałęziowski (glassmorphism), Hyperplexed (lock screen), Sara Mazal (digital rain)
+      and <a href="https://github.com/klevron/threejs-toys" target="_blank" rel="noopener">threejs-toys</a> by Kevin Levron.
+    </p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
