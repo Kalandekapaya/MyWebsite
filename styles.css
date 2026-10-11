@@ -553,10 +553,45 @@ button {
   flex-shrink: 0;
 }
 
+/* Light header while the light home section is behind it */
+.site-header {
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.site-header.is-light {
+  background: rgb(255 255 255 / 60%);
+  border-bottom-color: rgb(16 18 27 / 8%);
+}
+
+.site-header.is-light .brand,
+.site-header.is-light .site-nav a:hover,
+.site-header.is-light .site-nav a.is-active {
+  color: #10121b;
+}
+
+.site-header.is-light .site-nav a {
+  color: rgb(60 66 87 / 75%);
+}
+
+.site-header.is-light .site-nav a:hover,
+.site-header.is-light .site-nav a.is-active {
+  border-bottom-color: var(--blue);
+}
+
+.site-header.is-light .relock {
+  background: rgb(16 18 27 / 6%);
+  border-color: rgb(16 18 27 / 12%);
+  color: #10121b;
+}
+
 /* =========================================================
-   HERO (animated aurora)
+   HERO (light theme, animated aurora)
    ========================================================= */
 .hero {
+  --hero-bg: #f4f6fb;
+  --hero-ink: #10121b;
+  --hero-muted: #3c4257;
+  --hero-accent: #0e7490;
   position: relative;
   height: 100vh;
   min-height: 560px;
@@ -564,7 +599,8 @@ button {
   place-items: center;
   overflow: hidden;
   text-align: center;
-  background: var(--bg);
+  background: var(--hero-bg);
+  color: var(--hero-ink);
 }
 
 .hero-aurora {
@@ -575,12 +611,12 @@ button {
   display: block;
 }
 
-/* Soft dark pool behind the text so the name stays readable over the aurora */
+/* Soft light pool behind the text so the name stays readable over the aurora */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 55% 45% at center, rgb(7 8 15 / 60%), transparent 75%);
+  background: radial-gradient(ellipse 55% 45% at center, rgb(244 246 251 / 75%), transparent 75%);
   pointer-events: none;
 }
 
@@ -588,13 +624,11 @@ button {
   position: relative;
   z-index: 1;
   padding: 0 1rem;
-  text-shadow: 0 0 5px #fff, 0 0 20px #000, 0 0 30px #000;
 }
 
 .hero-kicker {
   font-family: var(--mono);
-  color: var(--rain);
-  text-shadow: 0 0 8px rgb(0 255 255 / 60%);
+  color: var(--hero-accent);
 }
 
 .hero h1 {
@@ -607,6 +641,17 @@ button {
 
 .hero-role {
   font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--hero-muted);
+}
+
+.hero .magic-button span {
+  background: #fff;
+  color: var(--hero-ink);
+}
+
+.hero .magic-button:hover span {
+  background: transparent;
+  color: #fff;
 }
 
 .hero-actions {

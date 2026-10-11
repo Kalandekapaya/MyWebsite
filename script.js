@@ -397,9 +397,9 @@ function createAurora(canvas) {
   const ctx = canvas.getContext("2d");
   const SCALE = 6;
   const ribbons = [
-    { rgb: "0, 255, 255", base: 0.34, amp: 0.1, speed: 0.32, phase: 0, alpha: 0.5 },
-    { rgb: "60, 103, 227", base: 0.5, amp: 0.13, speed: 0.22, phase: 2.1, alpha: 0.65 },
-    { rgb: "124, 58, 237", base: 0.66, amp: 0.11, speed: 0.27, phase: 4.2, alpha: 0.7 },
+    { rgb: "0, 200, 230", base: 0.34, amp: 0.1, speed: 0.32, phase: 0, alpha: 0.55 },
+    { rgb: "60, 103, 227", base: 0.5, amp: 0.13, speed: 0.22, phase: 2.1, alpha: 0.5 },
+    { rgb: "150, 90, 245", base: 0.66, amp: 0.11, speed: 0.27, phase: 4.2, alpha: 0.55 },
   ];
   let width = 0;
   let height = 0;
@@ -416,9 +416,10 @@ function createAurora(canvas) {
   function draw(time) {
     const s = time / 1000;
     ctx.globalCompositeOperation = "source-over";
-    ctx.fillStyle = "#07080f";
+    ctx.fillStyle = "#f4f6fb";
     ctx.fillRect(0, 0, width, height);
-    ctx.globalCompositeOperation = "lighter";
+    // Multiply on the light background: overlapping ribbons deepen instead of washing out
+    ctx.globalCompositeOperation = "multiply";
 
     for (const r of ribbons) {
       for (let x = 0; x < width; x++) {
@@ -744,6 +745,9 @@ function updateActiveNav() {
     return rect.top <= middle && rect.bottom > middle;
   });
   navLinks.forEach((a, i) => a.classList.toggle("is-active", navSections[i] === current));
+  // Light header while the light home section is still behind it
+  const header = $(".site-header");
+  header.classList.toggle("is-light", $("#home").getBoundingClientRect().bottom > header.offsetHeight);
 }
 
 window.addEventListener(
