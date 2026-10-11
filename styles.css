@@ -241,7 +241,7 @@ button {
   inset: 0;
   z-index: 0;
   display: block;
-  /* The particles render on solid black; screen blending lets the gradient show through */
+  /* The particles render on solid black; screen blending lets the photo show through */
   mix-blend-mode: screen;
   transition: filter 0.5s, transform 0.5s;
 }
@@ -253,12 +253,26 @@ button {
   z-index: 1;
 }
 
-.lock-bg {
+/* Background photo; if the file is missing, the .lock gradient shows instead */
+.lock-photo {
+  position: absolute;
+  inset: 0;
+  background: url("images/lock-bg.jpg") center / cover no-repeat;
   transition: filter 0.5s, transform 0.5s;
 }
 
+/* Darken the top-left (clock) and bottom (unlock button) so white text stays readable */
+.lock-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 0% 0%, rgb(0 0 0 / 45%), transparent 55%),
+    linear-gradient(to top, rgb(0 0 0 / 45%), transparent 35%);
+}
+
 .lock:not([data-state="logged-out"]) .lock-particles,
-.lock:not([data-state="logged-out"]) .lock-bg {
+.lock:not([data-state="logged-out"]) .lock-photo {
   filter: blur(10px) brightness(0.5);
   transform: scale(1.08);
 }
