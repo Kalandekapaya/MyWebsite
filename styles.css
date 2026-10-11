@@ -532,7 +532,7 @@ button {
 }
 
 /* =========================================================
-   HERO
+   HERO (animated aurora)
    ========================================================= */
 .hero {
   position: relative;
@@ -542,10 +542,24 @@ button {
   place-items: center;
   overflow: hidden;
   text-align: center;
-  background:
-    radial-gradient(circle at 50% 110%, rgb(78 0 194 / 45%), transparent 55%),
-    radial-gradient(circle at 50% -10%, rgb(0 255 255 / 12%), transparent 50%),
-    var(--bg);
+  background: var(--bg);
+}
+
+.hero-aurora {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Soft dark pool behind the text so the name stays readable over the aurora */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 45% at center, rgb(7 8 15 / 60%), transparent 75%);
+  pointer-events: none;
 }
 
 .hero-content {

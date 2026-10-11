@@ -301,6 +301,98 @@ try {
 setLockState(alreadyUnlocked ? "logged-in" : "logged-out");
 
 // ============================================================
+// Home aurora: flowing ribbons of light in the site palette.
+// Drawn at a fraction of screen resolution; the browser's
+// upscaling keeps it soft and the per-frame cost low.
+// ============================================================
+function createAurora(canvas) {
+  const ctx = canvas.getContext("2d");
+  const SCALE = 6;
+  const ribbons = [
+    { rgb: "0, 255, 255", base: 0.34, amp: 0.1, speed: 0.32, phase: 0, alpha: 0.5 },
+    { rgb: "60, 103, 227", base: 0.5, amp: 0.13, speed: 0.22, phase: 2.1, alpha: 0.65 },
+    { rgb: "124, 58, 237", base: 0.66, amp: 0.11, speed: 0.27, phase: 4.2, alpha: 0.7 },
+  ];
+  let width = 0;
+  let height = 0;
+  let running = false;
+  let last = 0;
+
+  function resize() {
+    width = Math.max(1, Math.ceil(canvas.clientWidth / SCALE));
+    height = Math.max(1, Math.ceil(canvas.clientHeight / SCALE));
+    canvas.width = width;
+    canvas.height = height;
+  }
+
+  function draw(time) {
+    const s = time / 1000;
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = "#07080f";
+    ctx.fillRect(0, 0, width, height);
+    ctx.globalCompositeOperation = "lighter";
+
+    for (const r of ribbons) {
+      for (let x = 0; x < width; x++) {
+        // Wave position in real pixels (not screen fraction) so phones get the same smooth curves
+        const nx = (x * SCALE) / 1400;
+        // Two layered waves give each ribbon a slow, curtain-like drift
+        const y =
+          height *
+          (r.base +
+            r.amp * Math.sin(nx * 5 + s * r.speed + r.phase) +
+            0.05 * Math.sin(nx * 13 - s * r.speed * 1.7 + r.phase * 2));
+        const thickness = height * (0.12 + 0.07 * Math.sin(nx * 3 + s * 0.4 + r.phase));
+        const glow = r.alpha * (0.55 + 0.45 * Math.sin(nx * 4 - s * 0.5 + r.phase));
+        // Bright lower edge fading upward, like a real aurora curtain
+        const g = ctx.createLinearGradient(0, y - thickness * 2, 0, y + thickness);
+        g.addColorStop(0, `rgba(${r.rgb}, 0)`);
+        g.addColorStop(0.75, `rgba(${r.rgb}, ${glow})`);
+        g.addColorStop(1, `rgba(${r.rgb}, 0)`);
+        ctx.fillStyle = g;
+        ctx.fillRect(x, y - thickness * 2, 1, thickness * 3);
+      }
+    }
+  }
+
+  function loop(time) {
+    if (!running) return;
+    // ~30fps is plenty for slow motion; skip drawing while the lock screen covers the page
+    if (time - last >= 33 && !document.body.classList.contains("is-locked")) {
+      draw(time);
+      last = time;
+    }
+    requestAnimationFrame(loop);
+  }
+
+  resize();
+  window.addEventListener("resize", () => {
+    resize();
+    if (reduceMotion) draw(0);
+  });
+
+  return {
+    start() {
+      if (reduceMotion) {
+        draw(0);
+        return;
+      }
+      if (running) return;
+      running = true;
+      requestAnimationFrame(loop);
+    },
+    stop() {
+      running = false;
+    },
+  };
+}
+
+const aurora = createAurora($(".hero-aurora"));
+new IntersectionObserver((entries) => {
+  entries[0].isIntersecting ? aurora.start() : aurora.stop();
+}).observe($("#home"));
+
+// ============================================================
 // Workspace (glassmorphism app design by Mikołaj Gałęziowski)
 // ============================================================
 const list = $(".project-list");

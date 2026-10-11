@@ -8,7 +8,7 @@ folder with any static host (GitHub Pages, Netlify, Vercel…).
 | Site section | What it does |
 | --- | --- |
 | Lock screen | Clock, date and PIN pad (`1234`) over a Three.js particle swarm that follows the cursor. "Skip intro" or <kbd>Esc</kbd> bypasses it; the lock button in the header brings it back. |
-| Home | Name, title and links over a glowing gradient background. |
+| Home | Name, title and links over an animated aurora drawn on a canvas. |
 | Workspace | Frosted-glass app window with project list, search, filters, dropdowns, details pop-up, skills/about tabs and a light/dark toggle. |
 | Featured | Spinning gradient-border cards for featured projects. |
 | Code | Digital rain behind a glass terminal that types out who I am. |
