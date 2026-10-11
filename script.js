@@ -448,10 +448,14 @@ list.addEventListener("click", (e) => {
 
   const copy = e.target.closest("[data-copy]");
   if (copy) {
-    navigator.clipboard?.writeText(copy.dataset.copy).then(() => {
-      copy.textContent = "Copied!";
-      setTimeout(() => (copy.textContent = "Copy link"), 1500);
-    });
+    Promise.resolve(navigator.clipboard?.writeText(copy.dataset.copy))
+      .then(() => {
+        copy.textContent = "Copied!";
+      })
+      .catch(() => {
+        copy.textContent = "Copy failed";
+      })
+      .finally(() => setTimeout(() => (copy.textContent = "Copy link"), 1500));
   }
 });
 
@@ -533,15 +537,32 @@ new IntersectionObserver(
   { threshold: 0.4 }
 ).observe(codeSection);
 
-// Highlight the nav link for the section in view
+// Highlight the nav link for the section in view. Uses scroll position rather
+// than an IntersectionObserver rootMargin, which browsers ignore inside
+// cross-origin iframes (such as an embedded preview).
 const navLinks = $$(".site-nav a");
-const navObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      navLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === `#${entry.target.id}`));
-    });
+const navSections = navLinks.map((a) => $(a.getAttribute("href")));
+let navTicking = false;
+
+function updateActiveNav() {
+  navTicking = false;
+  const middle = window.innerHeight / 2;
+  const current = navSections.find((section) => {
+    const rect = section.getBoundingClientRect();
+    return rect.top <= middle && rect.bottom > middle;
+  });
+  navLinks.forEach((a, i) => a.classList.toggle("is-active", navSections[i] === current));
+}
+
+window.addEventListener(
+  "scroll",
+  () => {
+    if (!navTicking) {
+      navTicking = true;
+      requestAnimationFrame(updateActiveNav);
+    }
   },
-  { rootMargin: "-50% 0px -50% 0px" }
+  { passive: true }
 );
-navLinks.forEach((a) => navObserver.observe($(a.getAttribute("href"))));
+window.addEventListener("resize", updateActiveNav);
+updateActiveNav();

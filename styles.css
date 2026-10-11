@@ -241,6 +241,8 @@ button {
   inset: 0;
   z-index: 0;
   display: block;
+  /* The particles render on solid black; screen blending lets the gradient show through */
+  mix-blend-mode: screen;
   transition: filter 0.5s, transform 0.5s;
 }
 
@@ -365,6 +367,7 @@ button {
   height: 1px;
   opacity: 0;
   pointer-events: none;
+  font-size: 16px; /* below 16px, iOS zooms the page when the field gets focus */
 }
 
 .pin-digits {
