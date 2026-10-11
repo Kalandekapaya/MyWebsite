@@ -55,7 +55,7 @@ const PROJECTS = [
     tech: "HTML · CSS · JavaScript",
     status: "progress",
     url: "https://github.com/Kalandekapaya/MyWebsite",
-    desc: "This site: a single-page portfolio with a lock screen, particle hero, glass workspace and matrix terminal.",
+    desc: "This site: a single-page portfolio with a lock screen, matrix rain, glass workspace and a typing terminal.",
   },
 ];
 
@@ -66,8 +66,8 @@ const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 $("#year").textContent = new Date().getFullYear();
 
 // ============================================================
-// Matrix digital rain (design based on a CodePen digital rain
-// pen: cyan rain, its symbols, plus some code characters)
+// Matrix digital rain (design by Sara Mazal: cyan rain and its
+// symbols, plus some code characters)
 // ============================================================
 const RAIN_CHARS = "פסחכשרושמח♡•~✶{}<>/=;01アカサタナ";
 
@@ -253,48 +253,15 @@ try {
 setLockState(alreadyUnlocked ? "logged-in" : "logged-out");
 
 // ============================================================
-// Hero particles cursor (threejs-toys by Kevin Levron)
+// Hero matrix rain (runs only while the hero is on screen)
 // ============================================================
-async function initParticles() {
-  const hero = $("#home");
-  if (reduceMotion) return;
-  try {
-    const { particlesCursor } = await import(
-      "https://unpkg.com/threejs-toys@0.0.8/build/threejs-toys.module.cdn.min.js"
-    );
-    const small = window.innerWidth < 700;
-    const pc = particlesCursor({
-      el: hero,
-      gpgpuSize: small ? 256 : 512,
-      colors: [0x00ffff, 0x4e00c2],
-      color: 0x5ddcff,
-      coordScale: 0.5,
-      noiseIntensity: 0.001,
-      noiseTimeCoef: 0.0001,
-      pointSize: small ? 4 : 5,
-      pointDecay: 0.0025,
-      sleepRadiusX: small ? 120 : 250,
-      sleepRadiusY: small ? 120 : 250,
-      sleepTimeCoefX: 0.001,
-      sleepTimeCoefY: 0.002,
-    });
-    hero.addEventListener("click", (e) => {
-      if (e.target.closest("a")) return;
-      pc.uniforms.uColor.value.set(Math.random() * 0xffffff);
-      pc.uniforms.uCoordScale.value = 0.001 + Math.random() * 2;
-      pc.uniforms.uNoiseIntensity.value = 0.0001 + Math.random() * 0.001;
-      pc.uniforms.uPointSize.value = 1 + Math.random() * 10;
-    });
-  } catch (err) {
-    // WebGL or the CDN unavailable: the gradient background still looks fine
-    console.warn("Particles cursor unavailable:", err);
-    $(".hero-hint").hidden = true;
-  }
-}
-initParticles();
+const heroRain = createRain($(".hero-rain"));
+new IntersectionObserver((entries) => {
+  entries[0].isIntersecting ? heroRain.start() : heroRain.stop();
+}).observe($("#home"));
 
 // ============================================================
-// Workspace (design based on a glassmorphism Creative Cloud redesign pen)
+// Workspace (glassmorphism app design by Mikołaj Gałęziowski)
 // ============================================================
 const list = $(".project-list");
 const searchInput = $(".search-bar input");
@@ -461,7 +428,7 @@ document.addEventListener("keydown", (e) => {
 $(".dark-light").addEventListener("click", () => $("#workspace").classList.toggle("light-mode"));
 
 // ============================================================
-// Featured cards (design based on a Magic Card pen)
+// Featured cards (spinning gradient-border cards)
 // ============================================================
 $(".magic-cards").innerHTML = PROJECTS.filter((p) => p.featured)
   .map((p, i) => {

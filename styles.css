@@ -515,7 +515,7 @@ button {
 }
 
 /* =========================================================
-   HERO (particles cursor)
+   HERO (matrix digital rain)
    ========================================================= */
 .hero {
   position: relative;
@@ -525,30 +525,33 @@ button {
   place-items: center;
   overflow: hidden;
   text-align: center;
-  touch-action: pan-y;
-  background:
-    radial-gradient(circle at 50% 110%, rgb(78 0 194 / 45%), transparent 55%),
-    radial-gradient(circle at 50% -10%, rgb(0 255 255 / 15%), transparent 50%),
-    #000;
+  background: #000;
 }
 
-.hero canvas {
+.hero-rain {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  width: 100%;
+  height: 100%;
   display: block;
+}
+
+/* Darken the rain behind the text and tint the bottom with the violet accent */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgb(0 0 0 / 80%) 0%, rgb(0 0 0 / 35%) 45%, transparent 75%),
+    radial-gradient(circle at 50% 120%, rgb(78 0 194 / 45%), transparent 55%);
+  pointer-events: none;
 }
 
 .hero-content {
   position: relative;
   z-index: 1;
   padding: 0 1rem;
-  pointer-events: none;
   text-shadow: 0 0 5px #fff, 0 0 20px #000, 0 0 30px #000;
-}
-
-.hero-content a {
-  pointer-events: auto;
 }
 
 .hero-kicker {
@@ -576,17 +579,6 @@ button {
   gap: 1rem;
   margin-top: 2rem;
   text-shadow: none;
-}
-
-.hero-hint {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  font-size: 0.8rem;
-  color: rgb(255 255 255 / 55%);
-  pointer-events: none;
 }
 
 /* =========================================================
