@@ -55,7 +55,7 @@ const PROJECTS = [
     tech: "HTML · CSS · JavaScript",
     status: "progress",
     url: "https://github.com/Kalandekapaya/MyWebsite",
-    desc: "This site: a single-page portfolio with a lock screen, matrix rain, glass workspace and a typing terminal.",
+    desc: "This site: a single-page portfolio with a lock screen, glass workspace and a matrix-rain terminal.",
   },
 ];
 
@@ -144,7 +144,6 @@ const PIN = "1234";
 const lock = $("#lock");
 const pinInput = $("#pin-input");
 const pinDigits = $$(".pin-digit");
-const lockRain = createRain($(".lock-rain"));
 const hideTimers = [];
 
 function setLockState(state) {
@@ -164,14 +163,63 @@ function setLockState(state) {
     try {
       sessionStorage.setItem("unlocked", "1");
     } catch (e) {}
+    // Let the particles slide away with the lock screen, then shut them down
     setTimeout(() => {
-      if (lock.dataset.state === "logged-in") lockRain.stop();
+      if (lock.dataset.state === "logged-in") stopLockParticles();
     }, 900);
   } else {
     document.body.classList.add("is-locked");
     lock.removeAttribute("aria-hidden");
-    lockRain.start();
+    startLockParticles();
   }
+}
+
+// Particles cursor behind the lock screen (threejs-toys by Kevin Levron)
+const TOYS_URL = "https://unpkg.com/threejs-toys@0.0.8/build/threejs-toys.module.cdn.min.js";
+let toysModule = null;
+let particlesCanvas = null;
+let particlesLoading = false;
+
+async function startLockParticles() {
+  if (reduceMotion || particlesCanvas || particlesLoading) return;
+  particlesLoading = true;
+  try {
+    toysModule = toysModule || (await import(TOYS_URL));
+    if (lock.dataset.state === "logged-in") return;
+    const small = window.innerWidth < 700;
+    toysModule.particlesCursor({
+      el: lock,
+      gpgpuSize: small ? 256 : 512,
+      colors: [0x00ffff, 0x4e00c2],
+      color: 0x5ddcff,
+      coordScale: 0.5,
+      noiseIntensity: 0.001,
+      noiseTimeCoef: 0.0001,
+      pointSize: small ? 4 : 5,
+      pointDecay: 0.0025,
+      sleepRadiusX: small ? 120 : 250,
+      sleepRadiusY: small ? 120 : 250,
+      sleepTimeCoefX: 0.001,
+      sleepTimeCoefY: 0.002,
+    });
+    particlesCanvas = lock.querySelector(":scope > canvas:last-of-type");
+    particlesCanvas.classList.add("lock-particles");
+  } catch (err) {
+    // No WebGL or the library couldn't load: the gradient background shows instead
+    console.warn("Particles cursor unavailable:", err);
+  } finally {
+    particlesLoading = false;
+  }
+}
+
+function stopLockParticles() {
+  if (!particlesCanvas) return;
+  // The library has no stop method, so release its WebGL context to stop GPU work.
+  // The canvas stays in the DOM (hidden) because the library still resizes it.
+  const gl = particlesCanvas.getContext("webgl2") || particlesCanvas.getContext("webgl");
+  gl?.getExtension("WEBGL_lose_context")?.loseContext();
+  particlesCanvas.hidden = true;
+  particlesCanvas = null;
 }
 
 function renderPin() {
@@ -251,14 +299,6 @@ try {
   alreadyUnlocked = sessionStorage.getItem("unlocked") === "1";
 } catch (e) {}
 setLockState(alreadyUnlocked ? "logged-in" : "logged-out");
-
-// ============================================================
-// Hero matrix rain (runs only while the hero is on screen)
-// ============================================================
-const heroRain = createRain($(".hero-rain"));
-new IntersectionObserver((entries) => {
-  entries[0].isIntersecting ? heroRain.start() : heroRain.stop();
-}).observe($("#home"));
 
 // ============================================================
 // Workspace (glassmorphism app design by Mikołaj Gałęziowski)

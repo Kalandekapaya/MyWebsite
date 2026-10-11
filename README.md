@@ -7,8 +7,8 @@ folder with any static host (GitHub Pages, Netlify, Vercel…).
 
 | Site section | What it does |
 | --- | --- |
-| Lock screen | Clock, date and PIN pad (`1234`) over cyan digital rain. "Skip intro" or <kbd>Esc</kbd> bypasses it; the lock button in the header brings it back. |
-| Home | Name and intro over full-screen matrix digital rain. |
+| Lock screen | Clock, date and PIN pad (`1234`) over a Three.js particle swarm that follows the cursor. "Skip intro" or <kbd>Esc</kbd> bypasses it; the lock button in the header brings it back. |
+| Home | Name, title and links over a glowing gradient background. |
 | Workspace | Frosted-glass app window with project list, search, filters, dropdowns, details pop-up, skills/about tabs and a light/dark toggle. |
 | Featured | Spinning gradient-border cards for featured projects. |
 | Code | Digital rain behind a glass terminal that types out who I am. |
@@ -28,5 +28,5 @@ A shared palette ties the pieces together: the rain's cyan, the card gradient
 
 ## Credits
 
-Design credits: lock screen by Hyperplexed, digital rain by Sara Mazal, glassmorphism app
-design by Mikołaj Gałęziowski. Icons from [Feather](https://feathericons.com) (MIT).
+Design credits: lock screen by Hyperplexed, particles cursor by Kevin Levron (threejs-toys,
+loaded from unpkg), digital rain by Sara Mazal, glassmorphism app design by Mikołaj Gałęziowski. Icons from [Feather](https://feathericons.com) (MIT).

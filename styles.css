@@ -216,7 +216,10 @@ button {
   inset: 0;
   z-index: 100;
   overflow: hidden;
-  background: #000;
+  background:
+    radial-gradient(circle at 20% 20%, rgb(78 0 194 / 35%), transparent 50%),
+    radial-gradient(circle at 80% 80%, rgb(60 103 227 / 30%), transparent 50%),
+    var(--bg);
   color: #fff;
   cursor: pointer;
   transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.9s, visibility 0s 0.9s;
@@ -233,17 +236,28 @@ button {
   pointer-events: none;
 }
 
-.lock-rain {
+.lock-particles {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  z-index: 0;
   display: block;
   transition: filter 0.5s, transform 0.5s;
 }
 
-.lock:not([data-state="logged-out"]) .lock-rain {
-  filter: blur(6px) brightness(0.45);
+.lock-info,
+.lock-pin,
+.lock-spinner,
+.lock-signin {
+  z-index: 1;
+}
+
+.lock-bg {
+  transition: filter 0.5s, transform 0.5s;
+}
+
+.lock:not([data-state="logged-out"]) .lock-particles,
+.lock:not([data-state="logged-out"]) .lock-bg {
+  filter: blur(10px) brightness(0.5);
   transform: scale(1.08);
 }
 
@@ -515,7 +529,7 @@ button {
 }
 
 /* =========================================================
-   HERO (matrix digital rain)
+   HERO
    ========================================================= */
 .hero {
   position: relative;
@@ -525,26 +539,10 @@ button {
   place-items: center;
   overflow: hidden;
   text-align: center;
-  background: #000;
-}
-
-.hero-rain {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-/* Darken the rain behind the text and tint the bottom with the violet accent */
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
   background:
-    radial-gradient(ellipse at center, rgb(0 0 0 / 80%) 0%, rgb(0 0 0 / 35%) 45%, transparent 75%),
-    radial-gradient(circle at 50% 120%, rgb(78 0 194 / 45%), transparent 55%);
-  pointer-events: none;
+    radial-gradient(circle at 50% 110%, rgb(78 0 194 / 45%), transparent 55%),
+    radial-gradient(circle at 50% -10%, rgb(0 255 255 / 12%), transparent 50%),
+    var(--bg);
 }
 
 .hero-content {

@@ -26,9 +26,9 @@
     <symbol id="i-arrow" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></symbol>
   </svg>
 
-  <!-- ============ LOCK SCREEN (App Menu With Lock Screen + Matrix) ============ -->
+  <!-- ============ LOCK SCREEN ============ -->
   <div id="lock" class="lock" data-state="logged-out" role="dialog" aria-modal="true" aria-label="Lock screen">
-    <canvas class="lock-rain" aria-hidden="true"></canvas>
+    <div class="orbs lock-bg" aria-hidden="true"><span></span><span></span><span></span></div>
 
     <button class="lock-skip glass-button" type="button">Skip intro</button>
 
@@ -82,9 +82,9 @@
   </header>
 
   <main>
-    <!-- ============ HERO (matrix digital rain) ============ -->
+    <!-- ============ HERO ============ -->
     <section id="home" class="hero">
-      <canvas class="hero-rain" aria-hidden="true"></canvas>
+      <div class="orbs" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="hero-content">
         <p class="hero-kicker">&gt; hello world, I'm</p>
         <h1>KALANDE<br>KAPAYA</h1>
@@ -301,8 +301,8 @@
   <footer class="site-footer">
     <p>&copy; <span id="year"></span> Kalande Kapaya</p>
     <p class="credits">
-      Design credits: lock screen by Hyperplexed, digital rain by Sara Mazal,
-      glassmorphism app design by Mikołaj Gałęziowski.
+      Design credits: lock screen by Hyperplexed, particles cursor by Kevin Levron (threejs-toys),
+      digital rain by Sara Mazal, glassmorphism app design by Mikołaj Gałęziowski.
     </p>
   </footer>
 
