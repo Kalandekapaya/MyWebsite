@@ -21,7 +21,6 @@
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
     <symbol id="i-hash" viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></symbol>
     <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></symbol>
-    <symbol id="i-codepen" viewBox="0 0 24 24"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/><polyline points="2 15.5 12 8.5 22 15.5"/><line x1="12" y1="2" x2="12" y2="8.5"/></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></symbol>
@@ -137,16 +136,14 @@
             <div class="side-wrapper">
               <div class="side-title">Categories</div>
               <div class="side-menu">
-                <button type="button" data-filter="ui"><svg class="icon"><use href="#i-hash"/></svg>UI Design</button>
-                <button type="button" data-filter="3d"><svg class="icon"><use href="#i-hash"/></svg>3D / WebGL</button>
-                <button type="button" data-filter="experiments"><svg class="icon"><use href="#i-hash"/></svg>Experiments</button>
-                <button type="button" data-filter="web"><svg class="icon"><use href="#i-hash"/></svg>Websites</button>
+                <button type="button" data-filter="web"><svg class="icon"><use href="#i-hash"/></svg>Web Apps</button>
+                <button type="button" data-filter="mobile"><svg class="icon"><use href="#i-hash"/></svg>Mobile</button>
+                <button type="button" data-filter="tools"><svg class="icon"><use href="#i-hash"/></svg>Tools</button>
               </div>
             </div>
             <div class="side-wrapper">
               <div class="side-title">Find me</div>
               <div class="side-menu">
-                <a href="https://codepen.io/kalande-kapaya" target="_blank" rel="noopener"><svg class="icon"><use href="#i-codepen"/></svg>CodePen</a>
                 <a href="https://github.com/Kalandekapaya" target="_blank" rel="noopener"><svg class="icon"><use href="#i-github"/></svg>GitHub</a>
                 <a href="#contact"><svg class="icon"><use href="#i-mail"/></svg>Email</a>
               </div>
@@ -158,9 +155,9 @@
               <span class="menu-link-main" data-title>All Projects</span>
               <div class="header-menu filter-tabs">
                 <button class="main-header-link is-active" type="button" data-filter="all">All</button>
-                <button class="main-header-link" type="button" data-filter="ui">UI</button>
-                <button class="main-header-link" type="button" data-filter="3d">3D</button>
-                <button class="main-header-link" type="button" data-filter="experiments">Experiments</button>
+                <button class="main-header-link" type="button" data-filter="web">Web</button>
+                <button class="main-header-link" type="button" data-filter="mobile">Mobile</button>
+                <button class="main-header-link" type="button" data-filter="tools">Tools</button>
               </div>
             </div>
 
@@ -190,7 +187,7 @@
                   <div class="apps-card">
                     <div class="app-card">
                       <span><i class="app-icon" style="--c:#e34f26">H</i>HTML &amp; CSS / SCSS</span>
-                      <p class="app-card__subtext">Semantic markup, responsive layouts, glassmorphism and Houdini-powered animations.</p>
+                      <p class="app-card__subtext">Semantic markup, responsive layouts and smooth CSS animations.</p>
                       <div class="app-card-tags">HTML5 · CSS3 · SCSS</div>
                     </div>
                     <div class="app-card">
@@ -205,7 +202,7 @@
                     </div>
                     <div class="app-card">
                       <span><i class="app-icon" style="--c:#5ddcff">3D</i>Three.js / WebGL</span>
-                      <p class="app-card__subtext">GPU particle systems and shader-driven visuals that react to the user.</p>
+                      <p class="app-card__subtext">Interactive 3D graphics and visual effects in the browser.</p>
                       <div class="app-card-tags">Three.js · GLSL</div>
                     </div>
                     <div class="app-card">
@@ -228,9 +225,8 @@
                   <div class="content-section-title">About me</div>
                   <p>
                     I'm Kalande Kapaya, a programmer who loves the place where code meets design.
-                    I enjoy building interfaces that feel alive: digital rain, particle swarms,
-                    glowing cards and frosted glass. Every project on this page started as an
-                    experiment on my CodePen.
+                    I enjoy building interfaces that feel alive and turning ideas into clean,
+                    fast and reliable software.
                   </p>
                   <p>
                     <em>Edit this text in <code>index.html</code> to tell visitors more about your
@@ -238,7 +234,7 @@
                   </p>
                   <div class="stats">
                     <div><strong data-count="all">0</strong><span>projects</span></div>
-                    <div><strong>5</strong><span>CodePen experiments</span></div>
+                    <div><strong data-count="progress">0</strong><span>in progress</span></div>
                     <div><strong>&infin;</strong><span>curiosity</span></div>
                   </div>
                 </div>
@@ -268,7 +264,7 @@
     <section id="featured" class="featured">
       <div class="section-heading">
         <p class="kicker">// featured</p>
-        <h2>Featured experiments</h2>
+        <h2>Featured projects</h2>
       </div>
       <div class="magic-cards"></div>
     </section>
@@ -296,7 +292,6 @@
         <p>Have a project, a role or just want to say hi? My inbox is open.</p>
         <a class="magic-button" href="mailto:you@example.com"><span>Say hello</span></a>
         <div class="contact-links">
-          <a href="https://codepen.io/kalande-kapaya" target="_blank" rel="noopener"><svg class="icon"><use href="#i-codepen"/></svg>CodePen</a>
           <a href="https://github.com/Kalandekapaya" target="_blank" rel="noopener"><svg class="icon"><use href="#i-github"/></svg>GitHub</a>
         </div>
       </div>
@@ -304,10 +299,12 @@
   </main>
 
   <footer class="site-footer">
-    <p>&copy; <span id="year"></span> Kalande Kapaya &middot; Built from my CodePen experiments.</p>
+    <p>&copy; <span id="year"></span> Kalande Kapaya</p>
     <p class="credits">
-      Inspired by Mikołaj Gałęziowski (glassmorphism), Hyperplexed (lock screen), Sara Mazal (digital rain)
-      and <a href="https://github.com/klevron/threejs-toys" target="_blank" rel="noopener">threejs-toys</a> by Kevin Levron.
+      Site design adapted from CodePen pens by other creators: App Menu With Lock Screen (Hyperplexed),
+      Particles Cursor (<a href="https://github.com/klevron/threejs-toys" target="_blank" rel="noopener">threejs-toys</a> by Kevin Levron),
+      Glassmorphism Creative Cloud App Redesign (after a Dribbble shot by Mikołaj Gałęziowski),
+      Magic Card, and Digital Rain (Sara Mazal).
     </p>
   </footer>
 

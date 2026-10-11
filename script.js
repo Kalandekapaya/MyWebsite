@@ -1,60 +1,51 @@
 // ============================================================
-// Project data — edit this list to update the workspace and
-// featured cards.
+// Project data: replace these placeholders with your own work.
+// The workspace list, counters and featured cards are built from
+// this list. Leave `url` empty until a project has a public link.
 // ============================================================
 const PROJECTS = [
   {
-    name: "Matrix Digital Rain",
-    short: "MX",
+    name: "Project One",
+    short: "P1",
     color: "#00ffff",
-    category: "experiments",
-    tech: "Canvas · JavaScript",
+    category: "web",
+    tech: "HTML · CSS · JavaScript",
     status: "live",
-    url: "https://codepen.io/kalande-kapaya/pen/yLRbZaR",
-    desc: "Falling-character digital rain drawn on an HTML canvas, with fading trails. It powers the lock screen and code section of this site.",
+    url: "",
+    desc: "Short description of a project you've built: what it does and the problem it solves.",
     featured: true,
   },
   {
-    name: "Particles Cursor",
-    short: "PC",
+    name: "Project Two",
+    short: "P2",
     color: "#a78bfa",
-    category: "3d",
-    tech: "Three.js · WebGL",
+    category: "web",
+    tech: "React · Node.js",
     status: "live",
-    url: "https://codepen.io/kalande-kapaya/pen/ZEqKwrZ",
-    desc: "A GPU particle swarm that chases your cursor, built with threejs-toys. Click to remix its colours, scale and noise.",
+    url: "",
+    desc: "Short description of a project you've built: what it does and the problem it solves.",
     featured: true,
   },
   {
-    name: "Magic Card",
-    short: "MC",
+    name: "Project Three",
+    short: "P3",
     color: "#5ddcff",
-    category: "ui",
-    tech: "CSS · Houdini @property",
-    status: "live",
-    url: "https://codepen.io/kalande-kapaya/pen/MWzXRwz",
-    desc: "A glowing card whose gradient border spins thanks to an animated CSS custom property angle.",
+    category: "mobile",
+    tech: "Mobile · API",
+    status: "progress",
+    url: "",
+    desc: "Short description of a project you're working on right now.",
     featured: true,
   },
   {
-    name: "Glassmorphism App Redesign",
-    short: "GA",
-    color: "#3a6df0",
-    category: "ui",
-    tech: "SCSS · jQuery",
-    status: "live",
-    url: "https://codepen.io/kalande-kapaya/pen/abQKMMx",
-    desc: "A frosted-glass desktop app interface with tabs, dropdowns, pop-ups and a light/dark toggle.",
-  },
-  {
-    name: "App Menu with Lock Screen",
-    short: "LS",
+    name: "Project Four",
+    short: "P4",
     color: "#ff5e68",
-    category: "ui",
-    tech: "React · TypeScript",
+    category: "tools",
+    tech: "Python · CLI",
     status: "live",
-    url: "https://codepen.io/kalande-kapaya/pen/eYjwMXV",
-    desc: "A TV-style app menu hidden behind a PIN lock screen, written in React and TypeScript.",
+    url: "",
+    desc: "Short description of a tool or script you've written.",
   },
   {
     name: "Portfolio Website",
@@ -64,7 +55,7 @@ const PROJECTS = [
     tech: "HTML · CSS · JavaScript",
     status: "progress",
     url: "https://github.com/Kalandekapaya/MyWebsite",
-    desc: "This site: all five CodePen experiments blended into one portfolio.",
+    desc: "This site: a single-page portfolio with a lock screen, particle hero, glass workspace and matrix terminal.",
   },
 ];
 
@@ -75,8 +66,8 @@ const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 $("#year").textContent = new Date().getFullYear();
 
 // ============================================================
-// Matrix digital rain (from the Matrix pen: cyan rain, its
-// symbols, plus some code characters)
+// Matrix digital rain (design based on a CodePen digital rain
+// pen: cyan rain, its symbols, plus some code characters)
 // ============================================================
 const RAIN_CHARS = "פסחכשרושמח♡•~✶{}<>/=;01アカサタナ";
 
@@ -147,7 +138,7 @@ function createRain(canvas, { fontSize = 18, fade = 0.05 } = {}) {
 }
 
 // ============================================================
-// Lock screen (from App Menu With Lock Screen)
+// Lock screen (design based on Hyperplexed's App Menu With Lock Screen)
 // ============================================================
 const PIN = "1234";
 const lock = $("#lock");
@@ -262,7 +253,7 @@ try {
 setLockState(alreadyUnlocked ? "logged-in" : "logged-out");
 
 // ============================================================
-// Hero particles cursor (from ThreeJS Toys - Particles Cursor)
+// Hero particles cursor (threejs-toys by Kevin Levron)
 // ============================================================
 async function initParticles() {
   const hero = $("#home");
@@ -303,7 +294,7 @@ async function initParticles() {
 initParticles();
 
 // ============================================================
-// Workspace (from the Glassmorphism Creative Cloud redesign)
+// Workspace (design based on a glassmorphism Creative Cloud redesign pen)
 // ============================================================
 const list = $(".project-list");
 const searchInput = $(".search-bar input");
@@ -314,10 +305,9 @@ let activeFilter = "all";
 const FILTER_TITLES = {
   all: "All Projects",
   progress: "In progress",
-  ui: "UI Design",
-  "3d": "3D / WebGL",
-  experiments: "Experiments",
-  web: "Websites",
+  web: "Web Apps",
+  mobile: "Mobile",
+  tools: "Tools",
 };
 
 function escapeHtml(str) {
@@ -325,11 +315,12 @@ function escapeHtml(str) {
 }
 
 function linkLabel(url) {
-  return url.includes("codepen.io") ? "Open on CodePen" : url.includes("github.com") ? "View on GitHub" : "Open project";
+  return url.includes("github.com") ? "View on GitHub" : "Open project";
 }
 
 list.innerHTML = PROJECTS.map((p, i) => {
   const live = p.status === "live";
+  const link = p.url ? `<li><a href="${p.url}" target="_blank" rel="noopener">${linkLabel(p.url)}</a></li>` : "";
   return `
     <li class="project" data-index="${i}" data-category="${p.category}" data-status="${p.status}">
       <div class="products">
@@ -340,15 +331,15 @@ list.innerHTML = PROJECTS.map((p, i) => {
       <span class="status"><span class="status-circle${live ? " green" : ""}"></span>${live ? "Live" : "In progress"}</span>
       <div class="button-wrapper">
         ${
-          live
+          live && p.url
             ? `<a class="content-button status-button open" href="${p.url}" target="_blank" rel="noopener">Open</a>`
             : `<button class="content-button status-button" type="button" data-details>Details</button>`
         }
         <button class="more" type="button" aria-label="More options for ${escapeHtml(p.name)}" aria-expanded="false"></button>
         <ul class="dropdown">
           <li><button type="button" data-details>Details</button></li>
-          <li><a href="${p.url}" target="_blank" rel="noopener">${linkLabel(p.url)}</a></li>
-          <li><button type="button" data-copy="${p.url}">Copy link</button></li>
+          ${link}
+          ${p.url ? `<li><button type="button" data-copy="${p.url}">Copy link</button></li>` : ""}
         </ul>
       </div>
     </li>`;
@@ -414,7 +405,8 @@ function openPopUp(project) {
   $(".pop-up__subtitle").textContent = project.desc;
   $(".pop-up__tech").textContent = project.tech;
   const link = $(".pop-up__link");
-  link.href = project.url;
+  link.hidden = !project.url;
+  link.href = project.url || "#";
   link.textContent = linkLabel(project.url);
   popUp.classList.add("visible");
   overlay.classList.add("is-active");
@@ -469,21 +461,25 @@ document.addEventListener("keydown", (e) => {
 $(".dark-light").addEventListener("click", () => $("#workspace").classList.toggle("light-mode"));
 
 // ============================================================
-// Featured magic cards (from Magic Card)
+// Featured cards (design based on a Magic Card pen)
 // ============================================================
 $(".magic-cards").innerHTML = PROJECTS.filter((p) => p.featured)
-  .map(
-    (p, i) => `
-    <a class="card" href="${p.url}" target="_blank" rel="noopener">
+  .map((p, i) => {
+    const tag = p.url ? `a href="${p.url}" target="_blank" rel="noopener"` : `div tabindex="0"`;
+    const footer = p.url
+      ? `<span class="card-link">${linkLabel(p.url)} <svg class="icon"><use href="#i-arrow"/></svg></span>`
+      : `<span class="card-link">Link coming soon</span>`;
+    return `
+    <${tag} class="card">
       <span class="card-index">0${i + 1}</span>
       <div class="card-body">
         <h3 class="card-title">${escapeHtml(p.name)}</h3>
         <p class="card-desc">${escapeHtml(p.desc)}</p>
         <p class="card-tech">${escapeHtml(p.tech)}</p>
       </div>
-      <span class="card-link">${linkLabel(p.url)} <svg class="icon"><use href="#i-arrow"/></svg></span>
-    </a>`
-  )
+      ${footer}
+    </${p.url ? "a" : "div"}>`;
+  })
   .join("");
 
 // ============================================================

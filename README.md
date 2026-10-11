@@ -1,30 +1,36 @@
 # Kalande Kapaya — Portfolio
 
-A single-page portfolio that blends five of my CodePen experiments into one site.
-No build step: open `index.html` in a browser, or serve the folder with any static host
-(GitHub Pages, Netlify, Vercel…).
+A single-page portfolio site. No build step: open `index.html` in a browser, or serve the
+folder with any static host (GitHub Pages, Netlify, Vercel…).
 
-| Section | Built from | What it does |
+## Design
+
+The look of the site is adapted from five CodePen pens by other creators. They are used
+as design elements only; they are not my projects.
+
+| Site section | Design source | What it does on this site |
 | --- | --- | --- |
-| Lock screen | [App Menu With Lock Screen](https://codepen.io/kalande-kapaya/pen/eYjwMXV) + [Matrix](https://codepen.io/kalande-kapaya/pen/yLRbZaR) | Clock, date and PIN pad (`1234`) over cyan digital rain. "Skip intro" or <kbd>Esc</kbd> bypasses it; the lock button in the header brings it back. |
-| Hero | [ThreeJS Toys – Particles Cursor](https://codepen.io/kalande-kapaya/pen/ZEqKwrZ) | GPU particle swarm that follows the cursor; click to remix it. |
-| Workspace | [Glassmorphism Creative Cloud App Redesign](https://codepen.io/kalande-kapaya/pen/abQKMMx) | Frosted-glass app window with project list, search, category filters, dropdowns, details pop-up, skills/about tabs and a light/dark toggle. |
-| Featured | [Magic Card](https://codepen.io/kalande-kapaya/pen/MWzXRwz) | Spinning gradient-border cards for featured projects. |
-| Code | [Matrix](https://codepen.io/kalande-kapaya/pen/yLRbZaR) | Full-screen digital rain behind a glass terminal that types out who I am. |
+| Lock screen | *App Menu With Lock Screen* by Hyperplexed, *Digital Rain* by Sara Mazal | Clock, date and PIN pad (`1234`) over cyan digital rain. "Skip intro" or <kbd>Esc</kbd> bypasses it; the lock button in the header brings it back. |
+| Hero | *Particles Cursor*, built on [threejs-toys](https://github.com/klevron/threejs-toys) by Kevin Levron | GPU particle swarm that follows the cursor; click to remix it. |
+| Workspace | *Glassmorphism Creative Cloud App Redesign*, after a Dribbble shot by Mikołaj Gałęziowski | Frosted-glass app window with project list, search, filters, dropdowns, details pop-up, skills/about tabs and a light/dark toggle. |
+| Featured | *Magic Card* | Spinning gradient-border cards for featured projects. |
+| Code | *Digital Rain* by Sara Mazal | Full-screen digital rain behind a glass terminal that types out who I am. |
 
-The palette ties everything together: the Matrix cyan, the Magic Card gradient
-(`#5ddcff → #3c67e3 → #4e00c2`) and the glassmorphism surfaces are used across every section.
+A shared palette ties the pieces together: the rain's cyan, the Magic Card gradient
+(`#5ddcff → #3c67e3 → #4e00c2`) and the glassmorphism surfaces.
 
 ## Editing
 
-- **Projects:** edit the `PROJECTS` array at the top of `script.js`. The workspace list,
-  counters and featured cards are generated from it (`featured: true` puts a project on a magic card).
-- **Text:** hero, skills and about copy live in `index.html`.
+- **Projects:** replace the placeholder entries in the `PROJECTS` array at the top of
+  `script.js`. The workspace list, counters and featured cards are generated from it
+  (`featured: true` puts a project on a featured card; leave `url` empty until it has a link).
+- **Text:** hero, skills and about copy live in `index.html`; the terminal text is
+  `TERMINAL_TEXT` in `script.js`.
 - **Contact email:** replace `you@example.com` in `index.html`.
 - **PIN:** change `PIN` in `script.js` (and the hint text in `index.html`).
 
 ## Credits
 
-Inspired by Mikołaj Gałęziowski (glassmorphism), Hyperplexed (lock screen) and Sara Mazal (digital rain).
-Particles by [threejs-toys](https://github.com/klevron/threejs-toys) by Kevin Levron, loaded from unpkg.
-Icons from [Feather](https://feathericons.com) (MIT).
+Design adapted from CodePen pens by Hyperplexed, Sara Mazal, Kevin Levron (threejs-toys, loaded
+from unpkg), and the creators of the *Glassmorphism Creative Cloud App Redesign* and *Magic Card*
+pens. Icons from [Feather](https://feathericons.com) (MIT).
