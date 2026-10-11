@@ -183,23 +183,35 @@ let toysModule = null;
 let particlesCanvas = null;
 let particlesLoading = false;
 
+// The particle library (~250 KB gzipped with three.js) waits until the page has
+// loaded and the browser is idle, so it never delays the first paint or the photo.
+const pageReady = new Promise((resolve) => {
+  const whenIdle = () =>
+    window.requestIdleCallback ? requestIdleCallback(resolve, { timeout: 1200 }) : setTimeout(resolve, 200);
+  if (document.readyState === "complete") whenIdle();
+  else window.addEventListener("load", whenIdle, { once: true });
+});
+
 async function startLockParticles() {
   if (reduceMotion || particlesCanvas || particlesLoading) return;
   particlesLoading = true;
   try {
+    await pageReady;
+    if (lock.dataset.state === "logged-in") return;
     toysModule = toysModule || (await import(TOYS_URL));
     if (lock.dataset.state === "logged-in") return;
     const small = window.innerWidth < 700;
     toysModule.particlesCursor({
       el: lock,
-      gpgpuSize: small ? 256 : 512,
+      // Fewer particles that fade faster: a shorter, tighter trail and a lighter GPU load
+      gpgpuSize: small ? 128 : 256,
       colors: [0x00ffff, 0x4e00c2],
       color: 0x5ddcff,
       coordScale: 0.5,
-      noiseIntensity: 0.001,
+      noiseIntensity: 0.0005,
       noiseTimeCoef: 0.0001,
-      pointSize: small ? 4 : 5,
-      pointDecay: 0.0025,
+      pointSize: small ? 3 : 4,
+      pointDecay: 0.009,
       sleepRadiusX: small ? 120 : 250,
       sleepRadiusY: small ? 120 : 250,
       sleepTimeCoefX: 0.001,
@@ -207,8 +219,9 @@ async function startLockParticles() {
     });
     particlesCanvas = lock.querySelector(":scope > canvas:last-of-type");
     particlesCanvas.classList.add("lock-particles");
+    startKPath();
   } catch (err) {
-    // No WebGL or the library couldn't load: the gradient background shows instead
+    // No WebGL or the library couldn't load: the photo background shows on its own
     console.warn("Particles cursor unavailable:", err);
   } finally {
     particlesLoading = false;
@@ -216,6 +229,7 @@ async function startLockParticles() {
 }
 
 function stopLockParticles() {
+  stopKPath();
   if (!particlesCanvas) return;
   // The library has no stop method, so release its WebGL context to stop GPU work.
   // The canvas stays in the DOM (hidden) because the library still resizes it.
@@ -224,6 +238,77 @@ function stopLockParticles() {
   particlesCanvas.hidden = true;
   particlesCanvas = null;
 }
+
+// Idle path in the shape of a K. The library's own idle motion is a fixed
+// figure-eight, so while the real pointer isn't over the lock screen we feed
+// it a virtual pointer that traces the letter instead. Points are relative to
+// the screen centre, in units of the letter's height.
+const K_POINTS = [
+  [-0.2, -0.5], // top of the stem
+  [-0.2, 0.5], // bottom of the stem
+  [-0.2, 0.05], // junction
+  [0.24, -0.5], // upper arm
+  [-0.2, 0.05], // junction
+  [0.26, 0.5], // lower arm
+  [-0.2, 0.05], // junction
+  [-0.2, -0.5], // back to the top
+];
+const K_LOOP_MS = 10000;
+const K_SEGMENTS = K_POINTS.slice(1).map((end, i) => {
+  const start = K_POINTS[i];
+  return { start, end, length: Math.hypot(end[0] - start[0], end[1] - start[1]) };
+});
+const K_LENGTH = K_SEGMENTS.reduce((sum, seg) => sum + seg.length, 0);
+let kFrame = 0;
+let kStartTime = 0;
+let realPointerOnLock = false;
+
+function kPointAt(progress) {
+  let distance = progress * K_LENGTH;
+  for (const seg of K_SEGMENTS) {
+    if (distance <= seg.length) {
+      const t = distance / seg.length;
+      return [seg.start[0] + (seg.end[0] - seg.start[0]) * t, seg.start[1] + (seg.end[1] - seg.start[1]) * t];
+    }
+    distance -= seg.length;
+  }
+  return K_POINTS[K_POINTS.length - 1];
+}
+
+function driveKPath(time) {
+  if (!realPointerOnLock) {
+    const rect = lock.getBoundingClientRect();
+    const size = Math.min(rect.width, rect.height) * 0.7;
+    const [x, y] = kPointAt(((time - kStartTime) % K_LOOP_MS) / K_LOOP_MS);
+    lock.dispatchEvent(
+      new PointerEvent("pointermove", {
+        clientX: rect.left + rect.width / 2 + x * size,
+        clientY: rect.top + rect.height / 2 + y * size,
+        bubbles: true,
+      })
+    );
+  }
+  kFrame = requestAnimationFrame(driveKPath);
+}
+
+function startKPath() {
+  if (kFrame) return;
+  kStartTime = performance.now();
+  kFrame = requestAnimationFrame(driveKPath);
+}
+
+function stopKPath() {
+  cancelAnimationFrame(kFrame);
+  kFrame = 0;
+}
+
+// Real mouse or finger on the lock screen takes over; the K resumes when it leaves
+lock.addEventListener("pointermove", (e) => {
+  if (e.isTrusted) realPointerOnLock = true;
+});
+lock.addEventListener("pointerleave", (e) => {
+  if (e.isTrusted) realPointerOnLock = false;
+});
 
 function renderPin() {
   const value = pinInput.value;
@@ -595,10 +680,16 @@ $(".magic-cards").innerHTML = PROJECTS.filter((p) => p.featured)
 // Code section: matrix rain + typing terminal
 // ============================================================
 const codeSection = $("#code");
-const codeRain = createRain($(".matrix-rain"), { fontSize: 16, fade: 0.06 });
+// Created on first view so it costs nothing at page load
+let codeRain = null;
 
 new IntersectionObserver((entries) => {
-  entries[0].isIntersecting ? codeRain.start() : codeRain.stop();
+  if (entries[0].isIntersecting) {
+    codeRain = codeRain || createRain($(".matrix-rain"), { fontSize: 16, fade: 0.06 });
+    codeRain.start();
+  } else {
+    codeRain?.stop();
+  }
 }).observe(codeSection);
 
 const TERMINAL_TEXT = [

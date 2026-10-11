@@ -7,8 +7,21 @@
   <meta name="description" content="Portfolio of Kalande Kapaya, full-stack software engineer and product specialist in Lusaka, Zambia.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <!-- Lock screen photo is the first thing on screen: fetch it straight away -->
+  <link rel="preload" as="image" href="images/lock-bg.webp" type="image/webp" media="(min-width: 761px)" fetchpriority="high">
+  <link rel="preload" as="image" href="images/lock-bg-small.webp" type="image/webp" media="(max-width: 760px)" fetchpriority="high">
   <link rel="stylesheet" href="styles.css">
+  <!-- Load web fonts without blocking the first paint (text shows in a system font until they arrive) -->
+  <script>
+    (function () {
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Montserrat:wght@700&family=JetBrains+Mono:wght@400;700&display=swap";
+      document.head.appendChild(link);
+    })();
+  </script>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Montserrat:wght@700&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
 </head>
 <body class="is-locked">
   <!-- Icon sprite (Feather icons, MIT) -->

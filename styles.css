@@ -258,7 +258,15 @@ button {
   position: absolute;
   inset: 0;
   background: url("images/lock-bg.jpg") center / cover no-repeat;
+  background-image: image-set(url("images/lock-bg.webp") type("image/webp"), url("images/lock-bg.jpg") type("image/jpeg"));
   transition: filter 0.5s, transform 0.5s;
+}
+
+@media (max-width: 760px) {
+  .lock-photo {
+    background-image: url("images/lock-bg-small.jpg");
+    background-image: image-set(url("images/lock-bg-small.webp") type("image/webp"), url("images/lock-bg-small.jpg") type("image/jpeg"));
+  }
 }
 
 /* Darken the top-left (clock) and bottom (unlock button) so white text stays readable */
@@ -1434,6 +1442,12 @@ button {
 /* =========================================================
    FEATURED (magic cards)
    ========================================================= */
+.featured,
+.contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 .featured {
   padding: 6rem 1.5rem;
   background: #212534;
