@@ -1437,6 +1437,10 @@ button {
   color: var(--inactive-color);
 }
 
+.timeline span a {
+  color: var(--cyan);
+}
+
 .timeline p {
   margin: 0.2rem 0 0;
   font-size: 14px;
@@ -1504,8 +1508,15 @@ button {
   flex-wrap: wrap;
   justify-content: center;
   gap: 3rem;
-  max-width: 1100px;
+  max-width: 1300px; /* four 280px cards fit on one row */
   margin: 0 auto;
+}
+
+/* Where four cards can't share a row, show a balanced 2 x 2 grid instead of 3 + 1 */
+@media (max-width: 1311px) {
+  .magic-cards {
+    max-width: 660px;
+  }
 }
 
 .card {

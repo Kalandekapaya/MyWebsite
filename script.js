@@ -49,6 +49,17 @@ const PROJECTS = [
     desc: "A responsive website for a human resource consultancy, built on the Bootstrap framework.",
   },
   {
+    name: "Gulani Stores",
+    short: "GS",
+    color: "#f5a524",
+    category: "marketing",
+    tech: "Marketing · Retail POS · Mobile apps",
+    status: "live",
+    url: "https://www.gulanistores.com/",
+    desc: "Three years as Marketing Manager: led multi-channel campaigns, user adoption and rollouts for retail point-of-sale software and mobile business apps, and grew the stores' digital footprint.",
+    featured: true,
+  },
+  {
     name: "Portfolio Website",
     short: "KK",
     color: "#3bf083",
@@ -496,6 +507,7 @@ const FILTER_TITLES = {
   web: "Web Apps",
   ai: "AI",
   data: "Data Tools",
+  marketing: "Marketing",
 };
 
 function escapeHtml(str) {
@@ -505,6 +517,7 @@ function escapeHtml(str) {
 function linkLabel(url) {
   if (url.includes("github.com")) return "View on GitHub";
   if (url.includes("t.me/")) return "Open on Telegram";
+  if (url.includes("gulanistores")) return "Visit website";
   return "Open project";
 }
 
